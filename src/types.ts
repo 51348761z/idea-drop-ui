@@ -4,6 +4,6 @@ export interface Idea {
   summary: string;
   description: string;
   tags: string[];
-  createAt: string;
+  createdAt: string;
   user: string;
 }
