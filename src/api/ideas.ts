@@ -23,3 +23,7 @@ export const createIdea = async (newIdea: {
   });
   return res.data;
 };
+
+export const deleteIdea = async (ideaId: string) => {
+  await api.delete(`/ideas/${ideaId}`);
+};
