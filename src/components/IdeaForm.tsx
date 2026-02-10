@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { Button } from "./ui/Button";
+import { Input } from "./ui/Input";
+import { Label } from "./ui/Label";
+import { Textarea } from "./ui/Textarea";
 
 export interface IdeaFormValues {
   title: string;
@@ -51,13 +55,10 @@ export const IdeaForm = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="title" className="mb-1 block font-medium text-gray-700">
-          Title
-        </label>
-        <input
+        <Label htmlFor="title">Title</Label>
+        <Input
           type="text"
           id="title"
-          className="w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           value={title}
           onChange={(e) => setTitle(e.currentTarget.value)}
           placeholder="Enter idea title"
@@ -65,15 +66,9 @@ export const IdeaForm = ({
       </div>
 
       <div>
-        <label
-          htmlFor="summary"
-          className="mb-1 block font-medium text-gray-700"
-        >
-          Summary
-        </label>
-        <input
+        <Label htmlFor="summary">Summary</Label>
+        <Input
           id="summary"
-          className="w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           placeholder="Enter idea summary"
@@ -81,15 +76,9 @@ export const IdeaForm = ({
       </div>
 
       <div>
-        <label
-          htmlFor="description"
-          className="mb-1 block font-medium text-gray-700"
-        >
-          Description
-        </label>
-        <textarea
+        <Label htmlFor="description">Description</Label>
+        <Textarea
           id="description"
-          className="h-40 w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Enter idea description"
@@ -97,10 +86,8 @@ export const IdeaForm = ({
       </div>
 
       <div>
-        <label htmlFor="tags" className="mb-1 block font-medium text-gray-700">
-          Tags
-        </label>
-        <input
+        <Label htmlFor="tags">Tags</Label>
+        <Input
           id="tags"
           className="w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           value={tags}
@@ -110,13 +97,14 @@ export const IdeaForm = ({
       </div>
 
       <div className="mt-5">
-        <button
+        <Button
           type="submit"
           disabled={isPending}
-          className="block w-full rounded-md bg-blue-600 px-6 py-2 font-semibold text-white capitalize transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          variant="primary"
+          className="w-full cursor-pointer"
         >
           {isPending ? "Processing" : submitLabel}
-        </button>
+        </Button>
       </div>
     </form>
   );
