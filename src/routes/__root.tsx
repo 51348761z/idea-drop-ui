@@ -1,3 +1,4 @@
+import { Header } from "@/components/Header";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { QueryClient } from "@tanstack/react-query";
 import {
@@ -22,10 +23,19 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     ],
   }),
 
-  component: () => (
-    <>
+  component: RootLayout,
+});
+
+function RootLayout() {
+  return (
+    <div className="flex min-h-screen flex-col bg-gray-100">
       <HeadContent />
-      <Outlet />
+      <Header />
+      <main className="flex justify-center p-6">
+        <div className="w-full max-w-4xl rounded-2xl bg-white p-8 shadow-lg">
+          <Outlet />
+        </div>
+      </main>
       <TanStackDevtools
         config={{
           position: "bottom-right",
@@ -37,6 +47,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
           },
         ]}
       />
-    </>
-  ),
-});
+    </div>
+  );
+}
