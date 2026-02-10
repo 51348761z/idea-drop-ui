@@ -27,3 +27,19 @@ export const createIdea = async (newIdea: {
 export const deleteIdea = async (ideaId: string) => {
   await api.delete(`/ideas/${ideaId}`);
 };
+
+export const updateIdea = async (
+  ideaId: string,
+  newIdea: {
+    title: string;
+    summary: string;
+    description: string;
+    tags: string[];
+  },
+) => {
+  const res = await api.put(`/ideas/${ideaId}`, {
+    ...newIdea,
+    createdAt: new Date().toISOString(),
+  });
+  return res.data;
+};
