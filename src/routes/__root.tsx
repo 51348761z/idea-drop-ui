@@ -1,8 +1,17 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { HeadContent, Outlet, createRootRoute } from "@tanstack/react-router";
+import { QueryClient } from "@tanstack/react-query";
+import {
+  HeadContent,
+  Outlet,
+  createRootRouteWithContext,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
-export const Route = createRootRoute({
+type RouterContext = {
+  queryClient: QueryClient;
+};
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       {
