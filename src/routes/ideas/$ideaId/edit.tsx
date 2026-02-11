@@ -1,33 +1,21 @@
-import { fetchIdeaById, updateIdea } from "@/api/ideas";
-import { IdeaForm, type IdeaFormValues } from "@/components/IdeaForm";
+import { IdeaForm } from "@/components/IdeaForm";
 import {
-  queryOptions,
-  useMutation,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+  singleIdeaQueryOptions,
+  useSingleIdea,
+  useUpdateIdea,
+} from "@/hooks/ideas";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ideas/$ideaId/edit")({
   component: IdeaEditPage,
   loader: async ({ params, context: { queryClient } }) =>
-    queryClient.ensureQueryData(ideaQueryOptions(params.ideaId)),
+    queryClient.ensureQueryData(singleIdeaQueryOptions(params.ideaId)),
 });
-
-const ideaQueryOptions = (id: string) =>
-  queryOptions({
-    queryKey: ["idea", id],
-    queryFn: () => fetchIdeaById(id),
-  });
 
 function IdeaEditPage() {
   const { ideaId } = Route.useParams();
-  const navigate = useNavigate();
-  const { data: idea } = useSuspenseQuery(ideaQueryOptions(ideaId));
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: (newIdea: IdeaFormValues) => updateIdea(ideaId, newIdea),
-    onSuccess: () => navigate({ to: "/ideas/$ideaId", params: { ideaId } }),
-  });
+  const { data: idea } = useSingleIdea(ideaId);
+  const { mutateAsync, isPending } = useUpdateIdea(ideaId);
 
   return (
     <div className="space-y-6">

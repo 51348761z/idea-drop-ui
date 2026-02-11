@@ -1,17 +1,17 @@
 import { api } from "@/lib/axios";
 import type { Idea } from "@/types";
 
-export const fetchIdeas = async (): Promise<Idea[]> => {
+export const fetchIdeasApi = async (): Promise<Idea[]> => {
   const res = await api.get("/ideas");
   return res.data;
 };
 
-export const fetchIdeaById = async (ideaId: string): Promise<Idea> => {
+export const fetchIdeaByIdApi = async (ideaId: string): Promise<Idea> => {
   const res = await api.get(`ideas/${ideaId}`);
   return res.data;
 };
 
-export const createIdea = async (newIdea: {
+export const createIdeaApi = async (newIdea: {
   title: string;
   summary: string;
   description: string;
@@ -24,11 +24,11 @@ export const createIdea = async (newIdea: {
   return res.data;
 };
 
-export const deleteIdea = async (ideaId: string) => {
+export const deleteIdeaApi = async (ideaId: string) => {
   await api.delete(`/ideas/${ideaId}`);
 };
 
-export const updateIdea = async (
+export const updateIdeaApi = async (
   ideaId: string,
   newIdea: {
     title: string;

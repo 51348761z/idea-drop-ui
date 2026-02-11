@@ -1,41 +1,28 @@
-import { deleteIdea, fetchIdeaById } from "@/api/ideas";
 import {
-  queryOptions,
-  useMutation,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-
-const ideaQueryOptions = (ideaId: string) =>
-  queryOptions({
-    queryKey: ["idea", ideaId],
-    queryFn: () => fetchIdeaById(ideaId),
-  });
+  singleIdeaQueryOptions,
+  useDeleteIdea,
+  useSingleIdea,
+} from "@/hooks/ideas";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ideas/$ideaId/")({
   component: IdeaDetailsPage,
   loader: ({ params, context: { queryClient } }) =>
-    queryClient.ensureQueryData(ideaQueryOptions(params.ideaId)),
+    queryClient.ensureQueryData(singleIdeaQueryOptions(params.ideaId)),
 });
 
 function IdeaDetailsPage() {
   const { ideaId } = Route.useParams();
-  const { data: idea } = useSuspenseQuery(ideaQueryOptions(ideaId));
-  const navigate = useNavigate();
+  const { data: idea } = useSingleIdea(ideaId);
 
-  const { mutateAsync: deleteMutate, isPending } = useMutation({
-    mutationFn: () => deleteIdea(ideaId),
-    onSuccess: () => {
-      navigate({ to: "/ideas" });
-    },
-  });
+  const { mutateAsync: deleteMutate, isPending } = useDeleteIdea();
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this idea?",
     );
     if (confirmDelete) {
-      await deleteMutate();
+      await deleteMutate(ideaId);
     }
   };
 

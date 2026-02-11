@@ -1,13 +1,6 @@
-import { fetchIdeas } from "@/api/ideas";
 import { IdeaCard } from "@/components/IdeaCard";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { ideasQueryOptions, useIdeas } from "@/hooks/ideas";
 import { createFileRoute } from "@tanstack/react-router";
-
-const ideasQueryOptions = () =>
-  queryOptions({
-    queryKey: ["ideas"],
-    queryFn: fetchIdeas,
-  });
 
 export const Route = createFileRoute("/ideas/")({
   head: () => ({
@@ -23,7 +16,7 @@ export const Route = createFileRoute("/ideas/")({
 });
 
 function IdeaPage() {
-  const { data } = useSuspenseQuery(ideasQueryOptions());
+  const { data } = useIdeas();
   const ideas = [...data].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );

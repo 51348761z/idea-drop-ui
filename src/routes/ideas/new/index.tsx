@@ -1,21 +1,13 @@
-import { createIdea } from "@/api/ideas";
 import { IdeaForm } from "@/components/IdeaForm";
-import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useCreateIdea } from "@/hooks/ideas";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ideas/new/")({
   component: NewIdeaPage,
 });
 
 function NewIdeaPage() {
-  const navigate = useNavigate();
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: createIdea,
-    onSuccess: () => {
-      navigate({ to: "/ideas" });
-    },
-  });
+  const { mutateAsync, isPending } = useCreateIdea();
 
   return (
     <div className="space-y-6">
