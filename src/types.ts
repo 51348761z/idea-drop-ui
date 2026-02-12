@@ -7,3 +7,10 @@ export interface Idea {
   createdAt: string;
   user: string;
 }
+
+export interface IdeaInput {
+  title: string;
+  summary: string;
+  description: string;
+  tags: string[];
+}

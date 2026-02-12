@@ -16,10 +16,8 @@ export const Route = createFileRoute("/ideas/")({
 });
 
 function IdeaPage() {
-  const { data } = useIdeas();
-  const ideas = [...data].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
+  const { data: ideas } = useIdeas();
+
   return (
     <div className="p-4">
       <h1 className="mb-4 text-2xl font-bold">Ideas</h1>

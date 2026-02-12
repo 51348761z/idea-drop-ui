@@ -6,17 +6,11 @@ import { Lightbulb } from "lucide-react";
 export const Route = createFileRoute("/")({
   component: HomePage,
   loader: ({ context }) =>
-    context.queryClient.ensureQueryData(ideasQueryOptions()),
+    context.queryClient.ensureQueryData(ideasQueryOptions(3)),
 });
 
 function HomePage() {
-  const { data: ideas } = useIdeas();
-  const latestIdeas = [...ideas]
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    )
-    .slice(0, 3);
+  const { data: ideas } = useIdeas(3);
 
   return (
     <div className="flex flex-col items-start justify-between gap-10 p-6 text-blue-600 md:flex-row">
@@ -36,7 +30,7 @@ function HomePage() {
           Latest Ideas
         </h2>
         <div className="space-y-6">
-          {latestIdeas.map((idea) => (
+          {ideas.map((idea) => (
             <IdeaCard key={idea._id} idea={idea} button={false} />
           ))}
         </div>

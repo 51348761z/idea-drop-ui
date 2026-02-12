@@ -15,14 +15,14 @@ import { useNavigate } from "@tanstack/react-router";
 
 const ideaKeys = {
   all: ["ideas"] as const,
-  lists: () => [...ideaKeys.all, "list"] as const,
+  lists: (limit?: number) => [...ideaKeys.all, "list", { limit }] as const,
   detail: (id: string) => [...ideaKeys.all, "detail", id] as const,
 };
 
-export const ideasQueryOptions = () =>
+export const ideasQueryOptions = (limit?: number) =>
   queryOptions({
-    queryKey: ideaKeys.all,
-    queryFn: fetchIdeasApi,
+    queryKey: ideaKeys.lists(limit),
+    queryFn: () => fetchIdeasApi(limit),
   });
 
 export const singleIdeaQueryOptions = (id: string) =>
@@ -32,8 +32,8 @@ export const singleIdeaQueryOptions = (id: string) =>
   });
 
 // Custom hooks
-export const useIdeas = () => {
-  return useSuspenseQuery(ideasQueryOptions());
+export const useIdeas = (limit?: number) => {
+  return useSuspenseQuery(ideasQueryOptions(limit));
 };
 
 export const useSingleIdea = (id: string) => {
