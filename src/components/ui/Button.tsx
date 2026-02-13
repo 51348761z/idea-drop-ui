@@ -17,7 +17,7 @@ export const Button = ({
 
   return (
     <button
-      className={`rounded-md px-4 py-2 font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${connectionColors[variant]} ${className}`}
+      className={`cursor-pointer rounded-md px-4 py-2 font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${connectionColors[variant]} ${className}`}
       {...props}
     />
   );
