@@ -14,3 +14,15 @@ export interface IdeaInput {
   description: string;
   tags: string[];
 }
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface RegisterInput {
+  name: string;
+  email: string;
+  password: string;
+}

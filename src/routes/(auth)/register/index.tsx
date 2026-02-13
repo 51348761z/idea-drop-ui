@@ -1,5 +1,9 @@
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import { useRegisterUser } from "@/hooks/auth";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export const Route = createFileRoute("/(auth)/register/")({
   component: RegisterPage,
@@ -10,44 +14,63 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { mutateAsync, isPending, error } = useRegisterUser();
+
+  const handleSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    await mutateAsync({ name, email, password });
+  };
+
   return (
     <div className="mx-auto max-w-md">
       <h1 className="mb-6 text-3xl font-bold capitalize">register</h1>
 
-      <form className="space-y-4">
-        <input
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <p className="rounded-md bg-red-200 p-4 text-red-500">
+            {error instanceof Error ? error.message : "Registration failed"}
+          </p>
+        )}
+
+        <Label htmlFor="name" className="hidden">
+          Name
+        </Label>
+        <Input
           type="text"
-          className="border-gray w-full rounded-md border p-2"
+          id="name"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.currentTarget.value)}
           autoComplete="off"
         />
 
-        <input
+        <Label htmlFor="email" className="hidden">
+          Email
+        </Label>
+        <Input
+          id="email"
           type="text"
-          className="border-gray w-full rounded-md border p-2"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.currentTarget.value)}
           autoComplete="off"
         />
 
-        <input
+        <Label htmlFor="password" className="hidden">
+          Password
+        </Label>
+        <Input
+          id="password"
           type="text"
-          className="border-gray w-full rounded-md border p-2"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
           autoComplete="off"
         />
 
-        <button
-          type="submit"
-          className="w-full rounded-md bg-blue-600 px-4 py-2 font-semibold text-white capitalize disabled:opacity-50"
-        >
-          register
-        </button>
+        <Button type="submit" disabled={isPending} className="w-full">
+          {isPending ? "Registering..." : "Register"}
+        </Button>
       </form>
 
       <p className="mt-4 text-center text-sm">

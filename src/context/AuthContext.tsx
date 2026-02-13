@@ -1,10 +1,11 @@
+import type { User } from "@/types";
 import React, { createContext, useContext, useState } from "react";
 
 type AuthContextType = {
   accessToken: string | null;
-  setAccessToken: (token: string) => void;
-  user: { id: string; email: string } | null;
-  setUser: (user: AuthContextType["user"]) => void;
+  setAccessToken: (token: string | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
