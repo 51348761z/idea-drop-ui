@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { useRegisterUser } from "@/hooks/auth";
@@ -27,9 +28,9 @@ function RegisterPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <p className="rounded-md bg-red-200 p-4 text-red-500">
-            {error instanceof Error ? error.message : "Registration failed"}
-          </p>
+          <ErrorMessage
+            message={error instanceof Error ? error.message : "Register failed"}
+          />
         )}
 
         <Label htmlFor="name" className="hidden">
@@ -49,7 +50,7 @@ function RegisterPage() {
         </Label>
         <Input
           id="email"
-          type="text"
+          type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.currentTarget.value)}
@@ -61,7 +62,7 @@ function RegisterPage() {
         </Label>
         <Input
           id="password"
-          type="text"
+          type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}

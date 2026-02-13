@@ -1,5 +1,10 @@
+import { Button } from "@/components/ui/Button";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import { useLoginUser } from "@/hooks/auth";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export const Route = createFileRoute("/(auth)/login/")({
   component: LoginPage,
@@ -8,36 +13,48 @@ export const Route = createFileRoute("/(auth)/login/")({
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { mutate, isPending, error } = useLoginUser();
+
+  const handleSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    mutate({ email, password });
+  };
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="mb-6 text-3xl font-bold capitalize">register</h1>
+      <h1 className="mb-6 text-3xl font-bold capitalize">login</h1>
+      {error && (
+        <ErrorMessage
+          message={error instanceof Error ? error.message : "Login failed"}
+        />
+      )}
 
-      <form className="space-y-4">
-        <input
-          type="text"
-          className="border-gray w-full rounded-md border p-2"
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Label htmlFor="email" className="hidden" />
+        <Input
+          id="email"
+          type="email"
+          name="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.currentTarget.value)}
           autoComplete="off"
         />
 
-        <input
-          type="text"
-          className="border-gray w-full rounded-md border p-2"
+        <Label htmlFor="password" className="hidden" />
+        <Input
+          id="password"
+          type="password"
+          name="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
           autoComplete="off"
         />
 
-        <button
-          type="submit"
-          className="w-full rounded-md bg-blue-600 px-4 py-2 font-semibold text-white capitalize disabled:opacity-50"
-        >
-          login
-        </button>
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Logging in..." : "Login"}
+        </Button>
       </form>
 
       <p className="mt-4 text-center text-sm">
