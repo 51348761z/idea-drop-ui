@@ -25,6 +25,22 @@ export const Header = () => {
             + New Idea
           </Link>
         </nav>
+
+        {/* Auth Buttons */}
+        <div className="flex items-center space-x-2">
+          <Link
+            to="/login"
+            className="px-3 py-2 leading-none font-medium text-gray-600 capitalize transition hover:text-gray-700"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="hover: rounded-md bg-gray-100 px-4 py-2 leading-none font-medium text-gray-600 capitalize transition hover:text-gray-800"
+          >
+            register
+          </Link>
+        </div>
       </div>
     </header>
   );
