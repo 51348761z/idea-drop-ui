@@ -1,4 +1,5 @@
 import { refreshAccessTokenApi } from "@/api/auth";
+import { setStoredAccessToken } from "@/lib/authToken";
 import type { User } from "@/types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -21,6 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const { accessToken: newToken, user } = await refreshAccessTokenApi();
         setAccessToken(newToken);
+        setStoredAccessToken(newToken);
         setUser(user);
       } catch (err) {
         setAccessToken(null);
@@ -32,6 +34,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
     loadAuth();
   }, []);
+
+  useEffect(() => {
+    setStoredAccessToken(accessToken);
+  }, [accessToken]);
 
   if (isLoading) {
     return (
