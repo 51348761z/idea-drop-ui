@@ -22,7 +22,9 @@ export const registerUserApi = async (
   }
 };
 
-export const loginUserApi = async (loginInput: LoginInput) => {
+export const loginUserApi = async (
+  loginInput: LoginInput,
+): Promise<AuthResponse> => {
   try {
     const res = await api.post("/auth/login", loginInput);
     return res.data;
@@ -41,6 +43,19 @@ export const logoutUserApi = async () => {
       err instanceof AxiosError
         ? err.response?.data?.message
         : "Logout failed.";
+    throw new Error(message);
+  }
+};
+
+export const refreshAccessTokenApi = async (): Promise<AuthResponse> => {
+  try {
+    const res = await api.post("/auth/refresh");
+    return res.data;
+  } catch (err) {
+    const message =
+      err instanceof AxiosError
+        ? err.response?.data?.message
+        : "Refresh token failed.";
     throw new Error(message);
   }
 };
