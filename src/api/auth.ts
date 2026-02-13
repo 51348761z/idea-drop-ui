@@ -28,9 +28,19 @@ export const loginUserApi = async (loginInput: LoginInput) => {
     return res.data;
   } catch (err) {
     const message =
+      err instanceof AxiosError ? err.response?.data?.message : "Login failed.";
+    throw new Error(message);
+  }
+};
+
+export const logoutUserApi = async () => {
+  try {
+    await api.post("/auth/logout");
+  } catch (err) {
+    const message =
       err instanceof AxiosError
         ? err.response?.data?.message
-        : "Register failed.";
+        : "Logout failed.";
     throw new Error(message);
   }
 };

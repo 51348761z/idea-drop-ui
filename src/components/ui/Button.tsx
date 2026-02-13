@@ -11,7 +11,7 @@ export const Button = ({
 }: ButtonProps) => {
   const connectionColors = {
     primary: "bg-blue-600 text-white hover:bg-blue-700",
-    danger: "bg-red-600 text-white hover:bg-red-700",
+    danger: "bg-red-500 text-white hover:bg-red-700",
     outline: "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
   };
 
