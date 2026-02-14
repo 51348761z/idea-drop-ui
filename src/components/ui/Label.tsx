@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
+export interface LabelProps extends React.ComponentPropsWithoutRef<"label"> {}
 
 export const Label = ({ className, children, ...props }: LabelProps) => {
   return (
