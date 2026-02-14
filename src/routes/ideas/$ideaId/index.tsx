@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { useAuth } from "@/context/AuthContext";
 import {
   singleIdeaQueryOptions,
   useDeleteIdea,
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/ideas/$ideaId/")({
 });
 
 function IdeaDetailsPage() {
+  const { user } = useAuth();
   const { ideaId } = Route.useParams();
   const { data: idea } = useSingleIdea(ideaId);
 
@@ -37,19 +39,24 @@ function IdeaDetailsPage() {
       </Link>
       <h2 className="text-2xl font-bold">{idea.title}</h2>
       <p className="mt-2">{idea.description}</p>
-      {/* Edit Link */}
-      <Link
-        to="/ideas/$ideaId/edit"
-        params={{ ideaId }}
-        className="mt-4 mr-2 inline-block rounded bg-yellow-500 px-4 py-2 text-sm text-white capitalize transition hover:bg-yellow-600"
-      >
-        edit
-      </Link>
 
-      {/* Delte Button */}
-      <Button disabled={isPending} onClick={handleDelete} variant="danger">
-        {isPending ? "deleting" : "delete"}
-      </Button>
+      {user && user.id === idea.user && (
+        <>
+          {/* Edit Link */}
+          <Link
+            to="/ideas/$ideaId/edit"
+            params={{ ideaId }}
+            className="mt-4 mr-2 inline-block rounded bg-yellow-500 px-4 py-2 text-sm text-white capitalize transition hover:bg-yellow-600"
+          >
+            edit
+          </Link>
+
+          {/* Delte Button */}
+          <Button disabled={isPending} onClick={handleDelete} variant="danger">
+            {isPending ? "deleting" : "delete"}
+          </Button>
+        </>
+      )}
     </div>
   );
 }
