@@ -4,8 +4,9 @@ import {
   singleIdeaQueryOptions,
   useDeleteIdea,
   useSingleIdea,
-} from "@/hooks/ideas";
-import { createFileRoute, Link } from "@tanstack/react-router";
+} from "@/features/ideas";
+
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ideas/$ideaId/")({
   component: IdeaDetailsPage,
@@ -14,18 +15,20 @@ export const Route = createFileRoute("/ideas/$ideaId/")({
 });
 
 function IdeaDetailsPage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { ideaId } = Route.useParams();
   const { data: idea } = useSingleIdea(ideaId);
-
-  const { mutateAsync: deleteMutate, isPending } = useDeleteIdea();
+  const deleteIdeaMutation = useDeleteIdea();
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this idea?",
     );
     if (confirmDelete) {
-      await deleteMutate(ideaId);
+      deleteIdeaMutation.mutate(ideaId, {
+        onSuccess: () => navigate({ to: "/ideas" }),
+      });
     }
   };
 
@@ -52,8 +55,12 @@ function IdeaDetailsPage() {
           </Link>
 
           {/* Delte Button */}
-          <Button disabled={isPending} onClick={handleDelete} variant="danger">
-            {isPending ? "deleting" : "delete"}
+          <Button
+            disabled={deleteIdeaMutation.isPending}
+            onClick={handleDelete}
+            variant="danger"
+          >
+            {deleteIdeaMutation.isPending ? "deleting" : "delete"}
           </Button>
         </>
       )}

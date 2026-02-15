@@ -1,19 +1,19 @@
-import type { Idea } from "@/types";
 import { Link } from "@tanstack/react-router";
 import { clsx } from "clsx";
+import type { Idea } from "../types";
 
-export const IdeaCard = ({
-  idea,
-  button = true,
-}: {
+type IdeaCardProps = {
   idea: Idea;
   button?: boolean;
-}) => {
+};
+
+export const IdeaCard = ({ idea, button = true }: IdeaCardProps) => {
   const linkClasses = clsx({
-    "mt-4 text-blue600 hover:underline": !button,
+    "mt-4 text-blue-600 hover:underline": !button,
     "mt-4 inline-block rounded bg-blue-600 px-4 py-2 text-center text-white transition hover:bg-blue-700":
       button,
   });
+
   return (
     <div className="flex flex-col justify-between rounded border border-gray-300 bg-white p-4 shadow">
       <div>

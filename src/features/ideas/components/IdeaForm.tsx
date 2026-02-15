@@ -1,15 +1,10 @@
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import React, { useState } from "react";
-import { Button } from "./ui/Button";
-import { Input } from "./ui/Input";
-import { Label } from "./ui/Label";
-import { Textarea } from "./ui/Textarea";
-
-export interface IdeaFormValues {
-  title: string;
-  summary: string;
-  description: string;
-  tags: string[];
-}
+import { Button } from "../../../components/ui/Button";
+import { Input } from "../../../components/ui/Input";
+import { Label } from "../../../components/ui/Label";
+import { Textarea } from "../../../components/ui/Textarea";
+import type { IdeaFormValues } from "../types";
 
 type IdeaFormProps = {
   defaultValues?: IdeaFormValues;
@@ -30,12 +25,13 @@ export const IdeaForm = ({
     defaultValues?.description || "",
   );
   const [tags, setTags] = useState(defaultValues?.tags.join(", ") || "");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (!title.trim() || !summary.trim() || !description.trim()) {
-      alert("Please fill in all fields");
+      setErrorMessage("Please fill in all required fields.");
       return;
     }
 
@@ -54,6 +50,8 @@ export const IdeaForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {errorMessage && <ErrorMessage message={errorMessage} />}
+
       <div>
         <Label htmlFor="title">Title</Label>
         <Input
@@ -68,6 +66,7 @@ export const IdeaForm = ({
       <div>
         <Label htmlFor="summary">Summary</Label>
         <Input
+          type="text"
           id="summary"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
@@ -88,8 +87,8 @@ export const IdeaForm = ({
       <div>
         <Label htmlFor="tags">Tags</Label>
         <Input
+          type="text"
           id="tags"
-          className="w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
           placeholder="Enter tags, comma separated"

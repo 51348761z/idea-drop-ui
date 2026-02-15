@@ -1,5 +1,5 @@
+import type { Idea, IdeaInput } from "@/features/ideas";
 import { api } from "@/lib/axios";
-import type { Idea, IdeaInput } from "@/types";
 
 export const fetchIdeasApi = async (limit?: number): Promise<Idea[]> => {
   const res = await api.get("/ideas", {
@@ -18,7 +18,6 @@ export const fetchIdeaByIdApi = async (ideaId: string): Promise<Idea> => {
 export const createIdeaApi = async (newIdea: IdeaInput): Promise<Idea> => {
   const res = await api.post("/ideas", {
     ...newIdea,
-    createdAt: new Date().toISOString(),
   });
   return res.data;
 };
@@ -27,7 +26,10 @@ export const deleteIdeaApi = async (ideaId: string) => {
   await api.delete(`/ideas/${ideaId}`);
 };
 
-export const updateIdeaApi = async (ideaId: string, newIdea: IdeaInput) => {
+export const updateIdeaApi = async (
+  ideaId: string,
+  newIdea: IdeaInput,
+): Promise<Idea> => {
   const res = await api.put(`/ideas/${ideaId}`, newIdea);
   return res.data;
 };

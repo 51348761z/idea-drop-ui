@@ -1,5 +1,4 @@
-import { IdeaCard } from "@/components/IdeaCard";
-import { ideasQueryOptions, useIdeas } from "@/hooks/ideas";
+import { IdeaCard, ideasQueryOptions, useIdeas } from "@/features/ideas";
 import { createFileRoute } from "@tanstack/react-router";
 import { Lightbulb } from "lucide-react";
 

@@ -1,5 +1,4 @@
-import { IdeaCard } from "@/components/IdeaCard";
-import { ideasQueryOptions, useIdeas } from "@/hooks/ideas";
+import { IdeasList, ideasQueryOptions, useIdeas } from "@/features/ideas";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/ideas/")({
@@ -21,11 +20,7 @@ function IdeaPage() {
   return (
     <div className="p-4">
       <h1 className="mb-4 text-2xl font-bold">Ideas</h1>
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {ideas.map((idea) => (
-          <IdeaCard key={idea._id} idea={idea} />
-        ))}
-      </ul>
+      <IdeasList ideas={ideas} />
     </div>
   );
 }
