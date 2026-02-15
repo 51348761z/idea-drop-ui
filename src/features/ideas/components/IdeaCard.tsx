@@ -15,7 +15,7 @@ export const IdeaCard = ({ idea, button = true }: IdeaCardProps) => {
   });
 
   return (
-    <div className="flex flex-col justify-between rounded border border-gray-300 bg-white p-4 shadow">
+    <div className="flex h-full flex-col justify-between rounded border border-gray-300 bg-white p-4 shadow">
       <div>
         <h2 className="text-lg font-semibold">{idea.title}</h2>
         <p className="mt-2 text-gray-700">{idea.summary}</p>
