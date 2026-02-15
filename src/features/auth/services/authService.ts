@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios";
-import type { LoginInput, RegisterInput, User } from "@/types";
 import { AxiosError } from "axios";
+import type { LoginInput, RegisterInput, User } from "../types";
 
 type AuthResponse = {
   accessToken: string;

@@ -1,6 +1,6 @@
-import { refreshAccessTokenApi } from "@/api/auth";
+import { getStoredAccessToken, setStoredAccessToken } from "@/features/auth";
+import { refreshAccessTokenApi } from "@/features/auth/services/authService";
 import axios from "axios";
-import { getStoredAccessToken, setStoredAccessToken } from "./authToken";
 
 export const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api`,

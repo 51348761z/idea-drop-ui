@@ -6,7 +6,7 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "./context/AuthContext.tsx";
+import { AuthProvider } from "./features/auth/index.ts";
 import reportWebVitals from "./reportWebVitals.ts";
 import "./styles.css";
 

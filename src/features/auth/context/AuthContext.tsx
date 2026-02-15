@@ -1,7 +1,7 @@
-import { refreshAccessTokenApi } from "@/api/auth";
-import { setStoredAccessToken } from "@/lib/authToken";
-import type { User } from "@/types";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { setStoredAccessToken } from "../authToken";
+import { refreshAccessTokenApi } from "../services/authService";
+import type { User } from "../types";
 
 type AuthContextType = {
   accessToken: string | null;

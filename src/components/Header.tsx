@@ -1,5 +1,4 @@
-import { useAuth } from "@/context/AuthContext";
-import { useLogoutUser } from "@/hooks/auth";
+import { useAuth, useLogoutUser } from "@/features/auth";
 import { Link } from "@tanstack/react-router";
 import { Lightbulb } from "lucide-react";
 import { Button } from "./ui/Button";
@@ -7,9 +6,7 @@ export const Header = () => {
   const { user } = useAuth();
   const { mutate } = useLogoutUser();
 
-  const handleLogout = () => {
-    mutate();
-  };
+  const handleLogout = () => mutate();
 
   return (
     <header className="bg-white shadow">

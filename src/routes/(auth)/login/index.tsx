@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/Button";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useLoginUser } from "@/hooks/auth";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useLoginUser } from "@/features/auth";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import React, { useState } from "react";
 
 export const Route = createFileRoute("/(auth)/login/")({
@@ -11,21 +11,31 @@ export const Route = createFileRoute("/(auth)/login/")({
 });
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate, isPending, error } = useLoginUser();
+  const loginUserMutation = useLoginUser();
 
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    mutate({ email, password });
+    loginUserMutation.mutate(
+      { email, password },
+      {
+        onSuccess: () => navigate({ to: "/ideas" }),
+      },
+    );
   };
 
   return (
     <div className="mx-auto max-w-md">
       <h1 className="mb-6 text-3xl font-bold capitalize">login</h1>
-      {error && (
+      {loginUserMutation.error && (
         <ErrorMessage
-          message={error instanceof Error ? error.message : "Login failed"}
+          message={
+            loginUserMutation.error instanceof Error
+              ? loginUserMutation.error.message
+              : "Login failed"
+          }
         />
       )}
 
@@ -52,8 +62,12 @@ function LoginPage() {
           autoComplete="off"
         />
 
-        <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Logging in..." : "Login"}
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={loginUserMutation.isPending}
+        >
+          {loginUserMutation.isPending ? "Logging in..." : "Login"}
         </Button>
       </form>
 

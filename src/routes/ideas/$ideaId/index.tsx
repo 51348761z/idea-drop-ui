@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/features/auth";
 import {
   singleIdeaQueryOptions,
   useDeleteIdea,

@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/Button";
 import { ErrorMessage } from "@/components/ui/ErrorMessage";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useRegisterUser } from "@/hooks/auth";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useRegisterUser } from "@/features/auth";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import React, { useState } from "react";
 
 export const Route = createFileRoute("/(auth)/register/")({
@@ -14,12 +14,23 @@ function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const { mutateAsync, isPending, error } = useRegisterUser();
+  const registerMutation = useRegisterUser();
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    await mutateAsync({ name, email, password });
+
+    registerMutation.mutate(
+      {
+        name,
+        email,
+        password,
+      },
+      {
+        onSuccess: () => navigate({ to: "/" }),
+      },
+    );
   };
 
   return (
@@ -27,9 +38,13 @@ function RegisterPage() {
       <h1 className="mb-6 text-3xl font-bold capitalize">register</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {error && (
+        {registerMutation.error && (
           <ErrorMessage
-            message={error instanceof Error ? error.message : "Register failed"}
+            message={
+              registerMutation.error instanceof Error
+                ? registerMutation.error.message
+                : "Register failed"
+            }
           />
         )}
 
@@ -69,8 +84,12 @@ function RegisterPage() {
           autoComplete="off"
         />
 
-        <Button type="submit" disabled={isPending} className="w-full">
-          {isPending ? "Registering..." : "Register"}
+        <Button
+          type="submit"
+          disabled={registerMutation.isPending}
+          className="w-full"
+        >
+          {registerMutation.isPending ? "Registering..." : "Register"}
         </Button>
       </form>
 
