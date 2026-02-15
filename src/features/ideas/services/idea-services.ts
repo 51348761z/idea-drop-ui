@@ -1,5 +1,5 @@
 import type { Idea, IdeaInput } from "@/features/ideas";
-import { api } from "@/lib/axios";
+import { api } from "@/utils/axios";
 
 export const fetchIdeasApi = async (limit?: number): Promise<Idea[]> => {
   const res = await api.get("/ideas", {

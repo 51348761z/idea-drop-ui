@@ -1,4 +1,4 @@
-import { api } from "@/lib/axios";
+import { api } from "@/utils/axios";
 import { AxiosError } from "axios";
 import type { LoginInput, RegisterInput, User } from "../types";
 
